@@ -17,21 +17,24 @@ aws_prepare: compress_tweets.csv
 publish: aws_prepare
 		s3cmd sync $(OUTDIR) s3://$(BUCKET)/ \
 				-P --exclude '*' --include '*.js' \
-				--add-header 'Content-Encoding:gzip' \
+				--no-guess-mime-type \
+				--add-header='Content-Encoding:gzip' \
 				--mime-type="application/javascript; charset=utf-8" \
-				--add-header "Cache-Control: max-age=$(EXPIRY)" && \
+				--add-header="Cache-Control: max-age=$(EXPIRY)" && \
 		s3cmd sync $(OUTDIR) s3://$(BUCKET)/ \
 				-P --exclude '*' --include '*.css' \
-				--add-header 'Content-Encoding:gzip' \
+				--no-guess-mime-type \
+				--add-header='Content-Encoding:gzip' \
 				--mime-type="text/css; charset=utf-8" \
-				--add-header "Cache-Control: max-age=$(EXPIRY)" && \
+				--add-header="Cache-Control: max-age=$(EXPIRY)" && \
 		s3cmd sync $(OUTDIR) s3://$(BUCKET)/ \
 				-P --exclude '*' --include '*.html' \
-				--add-header 'Content-Encoding:gzip' \
+				--no-guess-mime-type \
+				--add-header='Content-Encoding:gzip' \
 				--mime-type="text/html; charset=utf-8" && \
 		s3cmd sync $(OUTDIR) s3://$(BUCKET)/ \
 				-P --exclude '*' --include '*.png' --include '*.jpg' --include '*.gif' \
-				--add-header "Cache-Control: max-age=$(EXPIRY)" && \
+				--add-header="Cache-Control: max-age=$(EXPIRY)" && \
 		s3cmd sync $(OUTDIR) s3://$(BUCKET)/ \
 				--exclude 'SHA512SUM' --exclude 'Makefile' \
 				--exclude 'README.*' --exclude 'tweets.csv' \
